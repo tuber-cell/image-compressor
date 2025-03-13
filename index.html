@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Compressor</title>
+  <style>
+    /* Navigation Bar Styles */
+    .navbar {
+      background: #007bff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      margin: 0 10px;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    /* Existing Styles (Keep these) */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .upload-section {
+      margin-bottom: 2rem;
+    }
+
+    .upload-section input[type="file"] {
+      display: none;
+    }
+
+    .upload-section label {
+      background: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .upload-section label:hover {
+      background: #0056b3;
+    }
+
+    .compress-level {
+      margin: 1rem 0;
+    }
+
+    .compress-level label {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    .compress-level input[type="range"] {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+
+    .results-table th,
+    .results-table td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    .results-table th {
+      background: #007bff;
+      color: #fff;
+    }
+
+    .results-table td {
+      background: #f9f9f9;
+    }
+
+    .emoji {
+      font-size: 1.2rem;
+    }
+
+    .download-btn {
+      background: #28a745;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <a href="/">🏠 Home</a>
+    <a href="/blog.html">📝 Blog</a>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <h1>📷 Image Compressor</h1>
+    <div class="upload-section">
+      <label for="file-input">📤 Upload Image</label>
+      <input type="file" id="file-input" accept="image/*">
+    </div>
+    <div class="compress-level">
+      <label for="compress-range">🔧 Compression Level: <span id="compress-value">50</span>%</label>
+      <input type="range" id="compress-range" min="1" max="100" value="50">
+    </div>
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>📄 File Name</th>
+          <th>📏 Original Size</th>
+          <th>📉 Compressed Size</th>
+          <th>🚀 Action</th>
+        </tr>
+      </thead>
+      <tbody id="results-body">
+        <!-- Results will be populated here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById('file-input');
+    const compressRange = document.getElementById('compress-range');
+    const compressValue = document.getElementById('compress-value');
+    const resultsBody = document.getElementById('results-body');
+
+    // Update compression level value
+    compressRange.addEventListener('input', () => {
+      compressValue.textContent = compressRange.value;
+    });
+
+    // Handle file upload and compression
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.src = e.target.result;
+
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+
+          // Set canvas dimensions
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          // Draw image on canvas
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          // Compress image
+          const quality = compressRange.value / 100;
+          canvas.toBlob(
+            (blob) => {
+              const compressedFile = new File([blob], file.name, {
+                type: 'image/jpeg',
+                lastModified: Date.now(),
+              });
+
+              // Display results
+              displayResults(file, compressedFile);
+            },
+            'image/jpeg',
+            quality
+          );
+        };
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Display results in the table
+    function displayResults(originalFile, compressedFile) {
+      const row = document.createElement('tr');
+
+      // File Name
+      const fileNameCell = document.createElement('td');
+      fileNameCell.textContent = originalFile.name;
+      row.appendChild(fileNameCell);
+
+      // Original Size
+      const originalSizeCell = document.createElement('td');
+      originalSizeCell.textContent = `${(originalFile.size / 1024).toFixed(2)} KB`;
+      row.appendChild(originalSizeCell);
+
+      // Compressed Size
+      const compressedSizeCell = document.createElement('td');
+      compressedSizeCell.textContent = `${(compressedFile.size / 1024).toFixed(2)} KB`;
+      row.appendChild(compressedSizeCell);
+
+      // Download Button
+      const actionCell = document.createElement('td');
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(compressedFile);
+      downloadLink.download = `compressed_${originalFile.name}`;
+      downloadLink.className = 'download-btn';
+      downloadLink.textContent = '⬇️ Download';
+      actionCell.appendChild(downloadLink);
+      row.appendChild(actionCell);
+
+      // Add row to table
+      resultsBody.appendChild(row);
+    }
+  </script>
+</body>
+</html>
