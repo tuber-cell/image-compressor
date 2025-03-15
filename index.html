@@ -201,10 +201,62 @@
         font-size: 0.9rem;
       }
 
+      .results-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .results-table thead,
+      .results-table tbody,
+      .results-table tr,
+      .results-table th,
+      .results-table td {
+        display: block;
+        width: 100%;
+      }
+
       .results-table th,
       .results-table td {
         padding: 8px;
         font-size: 0.9rem;
+        text-align: left;
+      }
+
+      .results-table th {
+        background: #667eea;
+        color: #fff;
+        font-weight: 500;
+      }
+
+      .results-table td {
+        background: #f9f9f9;
+      }
+
+      .results-table tr {
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .results-table td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: inline-block;
+        width: 50%;
+        color: #444;
+      }
+
+      .results-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .download-btn {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
       }
 
       .navbar a {
@@ -313,16 +365,19 @@
       // File Name
       const fileNameCell = document.createElement('td');
       fileNameCell.textContent = originalFile.name;
+      fileNameCell.setAttribute('data-label', 'File Name');
       row.appendChild(fileNameCell);
 
       // Original Size
       const originalSizeCell = document.createElement('td');
       originalSizeCell.textContent = `${(originalFile.size / 1024).toFixed(2)} KB`;
+      originalSizeCell.setAttribute('data-label', 'Original Size');
       row.appendChild(originalSizeCell);
 
       // Compressed Size
       const compressedSizeCell = document.createElement('td');
       compressedSizeCell.textContent = `${(compressedFile.size / 1024).toFixed(2)} KB`;
+      compressedSizeCell.setAttribute('data-label', 'Compressed Size');
       row.appendChild(compressedSizeCell);
 
       // Download Button
@@ -332,25 +387,7 @@
       downloadLink.download = `compressed_${originalFile.name}`;
       downloadLink.className = 'download-btn';
       downloadLink.textContent = '⬇️ Download';
-
-      // Add click event listener to trigger the ad
-      downloadLink.addEventListener('click', (event) => {
-        // Prevent the default download behavior temporarily
-        event.preventDefault();
-
-        // Trigger PropellerAds Popunder or In-Page Push Ad
-        if (typeof propellerPush === 'function') {
-          propellerPush({
-            zoneId: YOUR_ZONE_ID, // Replace with your PropellerAds Zone ID
-          });
-        }
-
-        // After the ad is triggered, proceed with the download
-        setTimeout(() => {
-          window.location.href = downloadLink.href;
-        }, 1000); // Delay the download by 1 second to allow the ad to load
-      });
-
+      actionCell.setAttribute('data-label', 'Action');
       actionCell.appendChild(downloadLink);
       row.appendChild(actionCell);
 
