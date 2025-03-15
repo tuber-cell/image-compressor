@@ -346,7 +346,10 @@
       // Add row to table
       resultsBody.appendChild(row);
     }
- <script defer src="https://www.vercel.live/analytics.js"></script>
+<script type="module">
+  import { inject } from 'https://unpkg.com/@vercel/analytics';
+  inject();
+</script>
   </script>
 </body>
 </html>
