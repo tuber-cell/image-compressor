@@ -4,37 +4,57 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog - Image Compressor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* Navigation Bar Styles */
-    .navbar {
-      background: #007bff;
-      padding: 10px 20px;
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      margin: 0;
+      padding: 0;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      border-radius: 5px;
-      margin-bottom: 20px;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
     }
 
     .navbar a {
-      color: #fff;
+      color: #444;
       text-decoration: none;
       font-size: 1rem;
-      margin: 0 10px;
+      margin: 0 15px;
+      padding: 8px 16px;
+      border-radius: 5px;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
     .navbar a:hover {
-      text-decoration: underline;
+      background: #667eea;
+      color: #fff;
     }
 
-    /* Blog Styles */
     .blog-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
       background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 800px;
+      text-align: left;
+      margin-top: 60px; /* To account for the fixed navbar */
     }
 
     .blog-post {
@@ -42,20 +62,20 @@
     }
 
     .blog-post h2 {
-      color: #007bff;
+      color: #667eea;
       font-size: 1.8rem;
       margin-bottom: 10px;
     }
 
     .blog-post p {
-      color: #333;
+      color: #555;
       line-height: 1.6;
     }
 
     .blog-post a {
-      color: #007bff;
+      color: #667eea;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 500;
     }
 
     .blog-post a:hover {
