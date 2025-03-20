@@ -442,14 +442,16 @@
     <div class="upload-section">
       <label for="file-input">📤 Upload Image</label>
       <input type="file" id="file-input" accept="image/*">
-    </div>
-    <div class="compress-level">
-      <label for="compress-range">🔧 Compression Level: <span id="compress-value">50</span>%</label>
-      <input type="range" id="compress-range" min="1" max="100" value="50">
-    </div>
+<div class="compress-level">
+  <label for="compress-range">🔧 Compression Level: <span id="compress-value">50</span>%</label>
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <span>Decrease</span>
+    <input type="range" id="compress-range" min="1" max="100" value="50">
+    <span>Increase</span>
   </div>
+</div>
 
- <!-- Results Table -->
+      <!-- Results Table -->
   <div class="container">
     <table class="results-table">
       <thead>
