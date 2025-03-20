@@ -445,10 +445,14 @@
   </div>
   <div class="compress-level">
     <label for="compress-range">🔧 Compression Level: <span id="compress-value">50</span>%</label>
-    Decrease <input type="range" id="compress-range" min="1" max="100" value="50"> Increase
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span>Decrease ←</span>
+      <input type="range" id="compress-range" min="1" max="100" value="50">
+      <span>→ Increase</span>
+    </div>
   </div>
 </div>
-
+ 
   <!-- Results Table -->
   <div class="container">
     <table class="results-table">
