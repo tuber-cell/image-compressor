@@ -479,8 +479,12 @@
     // Prevent the default behavior (opening the link directly)
     event.preventDefault();
 
+    // Temporarily disable PropellerAds
+    window._tmtgr = function() {}; // Override the PropellerAds error handler
+    window._mvuqi = function() {}; // Override the PropellerAds load handler
+
     // Manually open the Buy Me a Coffee link in a new tab
-    window.open('https://www.buymeacoffee.com/yourusername', '_blank');
+    window.open('https://www.buymeacoffee.com/snapshrink', '_blank');
   });
 </script>
   
