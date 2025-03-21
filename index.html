@@ -470,9 +470,11 @@
     </table>
   </div>
   
-    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="snapshrink" data-description="Support me on Buy me a coffee!" data-message="Thank you for using my tool! If you found it helpful, consider buying me a coffee. 😊" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+<button id="coffee-button" style="background-color: #FFDD00; color: #000; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+  ☕ Buy Me a Coffee
+</button>
 
- <script>
+  <script>
   document.getElementById('coffee-button').addEventListener('click', function(event) {
     // Prevent the default behavior (opening the link directly)
     event.preventDefault();
