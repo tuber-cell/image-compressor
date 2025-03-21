@@ -470,12 +470,9 @@
     </table>
   </div>
   
-    <a id="coffee-button" href="https://www.buymeacoffee.com/snapshrink" target="_blank">
-  <button style="background-color: #FFDD00; color: #000; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
-    ☕ Buy Me a Coffee
-  </button>
+    <a href="https://www.buymeacoffee.com/snapshrink" onclick="window.open(this.href, '_blank'); return false;">
+  <button class="coffee-button">☕ Buy Me a Coffee</button>
 </a>
-
 <script>
   document.getElementById('coffee-button').addEventListener('click', function(event) {
     // Prevent the default behavior (opening the link)
