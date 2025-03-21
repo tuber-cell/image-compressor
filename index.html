@@ -470,26 +470,11 @@
     </table>
   </div>
   
-<a id="coffee-button" href="https://www.buymeacoffee.com/snapshrink" target="_blank">
+    <a href="https://www.buymeacoffee.com/snapshrink" onclick="window.open(this.href, '_blank'); return false;">
   <button style="background-color: #FFDD00; color: #000; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
     ☕ Buy Me a Coffee
   </button>
 </a>
-
-<script>
-  document.getElementById('coffee-button').addEventListener('click', function(event) {
-    // Disable ads temporarily
-    window.adScriptEnabled = false;
-
-    // Open the Buy Me a Coffee link in a new tab
-    window.open(this.href, '_blank');
-
-    // Re-enable ads after a short delay
-    setTimeout(function() {
-      window.adScriptEnabled = true;
-    }, 1000); // Adjust the delay as needed
-  });
-</script>
   
 <!-- Feature Section -->
   <div class="features">
