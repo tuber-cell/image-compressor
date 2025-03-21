@@ -478,11 +478,16 @@
 
 <script>
   document.getElementById('coffee-button').addEventListener('click', function(event) {
-    // Prevent the default behavior (opening the link)
-    event.preventDefault();
+    // Disable ads temporarily
+    window.adScriptEnabled = false;
 
-    // Manually open the Buy Me a Coffee link in a new tab
+    // Open the Buy Me a Coffee link in a new tab
     window.open(this.href, '_blank');
+
+    // Re-enable ads after a short delay
+    setTimeout(function() {
+      window.adScriptEnabled = true;
+    }, 1000); // Adjust the delay as needed
   });
 </script>
   
