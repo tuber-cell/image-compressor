@@ -426,7 +426,52 @@
       opacity: 1;
       transform: translateY(0);
     }
-  </style>
+
+<script>
+  // Auto-detect language and translate if German
+  function translateToGerman() {
+    document.querySelector('title').textContent = 'PixTrim - Kostenloser Bildkompressor';
+    document.querySelector('.hero h1').textContent = '📷 PixTrim';
+    document.querySelector('.hero p').textContent = 'Komprimieren Sie Ihre Bilder mühelos und optimieren Sie die Leistung Ihrer Website.';
+    document.querySelector('.upload-section label').textContent = '📤 Bild hochladen';
+    document.querySelector('.compress-level label').innerHTML = '🔧 Kompressionsstufe: <span id="compress-value">50</span>%';
+    document.querySelectorAll('.compress-level span')[0].textContent = 'Verringern ←';
+    document.querySelectorAll('.compress-level span')[1].textContent = '→ Erhöhen';
+    
+    // Features
+    document.querySelectorAll('.feature h3')[0].textContent = 'Schnelle Kompression';
+    document.querySelectorAll('.feature p')[0].textContent = 'Komprimieren Sie Bilder in Sekunden ohne Qualitätsverlust.';
+    document.querySelectorAll('.feature h3')[1].textContent = 'Responsives Design';
+    document.querySelectorAll('.feature p')[1].textContent = 'Optimiert für alle Geräte, vom Desktop bis zum Handy.';
+    document.querySelectorAll('.feature h3')[2].textContent = 'Sicher & Privat';
+    document.querySelectorAll('.feature p')[2].textContent = 'Ihre Bilder werden niemals gespeichert oder geteilt.';
+    
+    // Testimonials
+    document.querySelector('.testimonials h2').textContent = 'Was unsere Nutzer sagen';
+    document.querySelectorAll('.testimonial p')[0].textContent = '"PixTrim hat das Optimieren meiner Website-Bilder so einfach gemacht! Sehr empfehlenswert."';
+    document.querySelectorAll('.testimonial p')[1].textContent = '"Die Kompressionsqualität ist erstaunlich und die Oberfläche super intuitiv."';
+    
+    // Footer
+    document.querySelector('footer p').textContent = '© 2023 PixTrim. Alle Rechte vorbehalten.';
+    
+    // Table headers
+    const thElements = document.querySelectorAll('.results-table th');
+    thElements[0].textContent = '📄 Dateiname';
+    thElements[1].textContent = '📏 Originalgröße';
+    thElements[2].textContent = '📉 Komprimierte Größe';
+    thElements[3].textContent = '🚀 Aktion';
+  }
+
+  // Check language on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    if ((navigator.language || navigator.userLanguage).startsWith('de')) {
+      document.documentElement.lang = 'de';
+      translateToGerman();
+    }
+  });
+</script>
+
+</style>
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -606,40 +651,41 @@
 
     // Display results in the table
     function displayResults(originalFile, compressedFile) {
-      const row = document.createElement('tr');
+  const row = document.createElement('tr');
+  const isGerman = document.documentElement.lang === 'de';
 
-      // File Name
-      const fileNameCell = document.createElement('td');
-      fileNameCell.textContent = originalFile.name;
-      fileNameCell.setAttribute('data-label', 'File Name');
-      row.appendChild(fileNameCell);
+  // File Name
+  const fileNameCell = document.createElement('td');
+  fileNameCell.textContent = originalFile.name;
+  fileNameCell.setAttribute('data-label', isGerman ? 'Dateiname' : 'File Name');
+  row.appendChild(fileNameCell);
 
-      // Original Size
-      const originalSizeCell = document.createElement('td');
-      originalSizeCell.textContent = `${(originalFile.size / 1024).toFixed(2)} KB`;
-      originalSizeCell.setAttribute('data-label', 'Original Size');
-      row.appendChild(originalSizeCell);
+  // Original Size
+  const originalSizeCell = document.createElement('td');
+  originalSizeCell.textContent = `${(originalFile.size / 1024).toFixed(2)} KB`;
+  originalSizeCell.setAttribute('data-label', isGerman ? 'Originalgröße' : 'Original Size');
+  row.appendChild(originalSizeCell);
 
-      // Compressed Size
-      const compressedSizeCell = document.createElement('td');
-      compressedSizeCell.textContent = `${(compressedFile.size / 1024).toFixed(2)} KB`;
-      compressedSizeCell.setAttribute('data-label', 'Compressed Size');
-      row.appendChild(compressedSizeCell);
+  // Compressed Size
+  const compressedSizeCell = document.createElement('td');
+  compressedSizeCell.textContent = `${(compressedFile.size / 1024).toFixed(2)} KB`;
+  compressedSizeCell.setAttribute('data-label', isGerman ? 'Komprimierte Größe' : 'Compressed Size');
+  row.appendChild(compressedSizeCell);
 
-      // Download Button
-      const actionCell = document.createElement('td');
-      const downloadLink = document.createElement('a');
-      downloadLink.href = URL.createObjectURL(compressedFile);
-      downloadLink.download = `compressed_${originalFile.name}`;
-      downloadLink.className = 'download-btn';
-      downloadLink.textContent = '⬇️ Download';
-      actionCell.setAttribute('data-label', 'Action');
-      actionCell.appendChild(downloadLink);
-      row.appendChild(actionCell);
+  // Download Button
+  const actionCell = document.createElement('td');
+  const downloadLink = document.createElement('a');
+  downloadLink.href = URL.createObjectURL(compressedFile);
+  downloadLink.download = `compressed_${originalFile.name}`;
+  downloadLink.className = 'download-btn';
+  downloadLink.textContent = isGerman ? '⬇️ Herunterladen' : '⬇️ Download';
+  actionCell.setAttribute('data-label', isGerman ? 'Aktion' : 'Action');
+  actionCell.appendChild(downloadLink);
+  row.appendChild(actionCell);
 
-      // Add row to table
-      resultsBody.appendChild(row);
-    }
+  // Add row to table
+  resultsBody.appendChild(row);
+}
 
     // Dark Mode Toggle
     const darkModeToggle = document.getElementById('dark-mode-toggle');
