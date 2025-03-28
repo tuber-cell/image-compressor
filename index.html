@@ -743,6 +743,39 @@
     );
 
     sections.forEach((section) => observer.observe(section));
+ 
+  // ▼▼▼ ADD THIS RIGHT BEFORE THE CLOSING SCRIPT TAG ▼▼▼
+  /* SEO URL Handling */
+  function createSlug(filename) {
+    return filename.toLowerCase()
+      .replace(/\.[^/.]+$/, "") 
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  }
+
+  function updateSeoUrl(filename) {
+    const slug = createSlug(filename);
+    const cleanUrl = `${window.location.origin}/compress/${slug}`;
+    window.history.replaceState({}, '', cleanUrl);
+    
+    // Update canonical tag
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = cleanUrl;
+  }
+
+  // Modify your existing file input handler
+  fileInput.addEventListener('change', (event) => {
+    if (event.target.files.length) {
+      updateSeoUrl(event.target.files[0].name);
+    }
+  });
+  // ▲▲▲ END OF NEW CODE ▲▲▲
+  
   </script>
 
   <!-- ▼▼▼ ADD BEFORE CLOSING BODY ▼▼▼ -->
