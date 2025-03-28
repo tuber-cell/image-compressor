@@ -744,5 +744,34 @@
 
     sections.forEach((section) => observer.observe(section));
   </script>
+
+  <!-- ▼▼▼ ADD BEFORE CLOSING BODY ▼▼▼ -->
+  <script>
+    // Lazy load images
+    document.querySelectorAll('img').forEach(img => {
+      img.loading = 'lazy';
+    });
+    
+    // Schema markup for breadcrumbs
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://yourdomain.com"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Image Compressor",
+        "item": "https://yourdomain.com/image-compressor"
+      }]
+    };
+    document.write(`<script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}<\/script>`);
+  </script>
+  <!-- ▲▲▲ END SCRIPT ▲▲▲ -->
+</body>
+
 </body>
 </html>
