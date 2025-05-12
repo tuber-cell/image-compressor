@@ -6,17 +6,17 @@
   <title>PixTrim - Free Image Compressor</title>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "PixTrim",
-  "url": "https://image-compressor-five-azure.vercel.app",
-  "logo": "https://image-compressor-five-azure.vercel.app/logo.jpg"
-}
-</script>
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "PixTrim",
+      "url": "https://image-compressor-five-azure.vercel.app",
+      "logo": "https://image-compressor-five-azure.vercel.app/logo.jpg"
+    }
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-  /* General Styles */
+    /* General Styles */
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #667eea, #764ba2);
@@ -434,6 +434,131 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+    }
+    
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 400px;
+      position: relative;
+    }
+    
+    body.dark-mode .modal-content {
+      background-color: #2c2c2c;
+      color: #fff;
+    }
+    
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    #auth-forms input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+    
+    body.dark-mode #auth-forms input {
+      background-color: #1e1e1e;
+      color: #fff;
+      border-color: #444;
+    }
+    
+    #auth-forms button {
+      width: 100%;
+      padding: 10px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    
+    #auth-forms button:hover {
+      background: #5a6fd1;
+    }
+    
+    #auth-forms p {
+      text-align: center;
+      margin-top: 15px;
+    }
+    
+    #auth-forms a {
+      color: #667eea;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    #auth-forms {
+      padding: 20px;
+    }
+
+    .form-message {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    body.dark-mode .success {
+      background-color: #155724;
+      color: #d4edda;
+    }
+
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    body.dark-mode .error {
+      background-color: #721c24;
+      color: #f8d7da;
+    }
+
+    /* Usage Counter */
+    .usage-counter {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 10px 15px;
+      border-radius: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      font-size: 0.9rem;
+      z-index: 1000;
+    }
+
+    body.dark-mode .usage-counter {
+      background: rgba(30, 30, 30, 0.9);
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -441,27 +566,52 @@
   <div class="navbar">
     <a href="/">🏠 Home</a>
     <a href="/blog.html">📝 Blog</a>
-    <a href="subscription.html">Subscribe</a>
+    <a href="subscription.html">💎 Subscribe</a>
+    <a href="#" id="auth-link">🔒 Login</a>
   </div>
 
-<!-- Hero Section -->
-<div class="hero">
-  <h1>📷 PixTrim</h1>
-  <p>Compress your images effortlessly and optimize your website's performance.</p>
-  <div class="upload-section">
-    <label for="file-input">📤 Upload Image</label>
-    <input type="file" id="file-input" accept="image/*">
-  </div>
-  <div class="compress-level">
-    <label for="compress-range">🔧 Compression Level: <span id="compress-value">50</span>%</label>
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <span>Decrease ←</span>
-      <input type="range" id="compress-range" min="1" max="100" value="50">
-      <span>→ Increase</span>
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="auth-forms">
+        <h2>Welcome to PixTrim</h2>
+        <div id="signup-form">
+          <input type="email" id="signup-email" placeholder="Email" required>
+          <input type="password" id="signup-password" placeholder="Password (min 6 characters)" required>
+          <button id="signup-btn">Sign Up</button>
+          <div id="signup-message" class="form-message"></div>
+          <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+        </div>
+        <div id="login-form" style="display: none;">
+          <input type="email" id="login-email" placeholder="Email" required>
+          <input type="password" id="login-password" placeholder="Password" required>
+          <button id="login-btn">Login</button>
+          <div id="login-message" class="form-message"></div>
+          <p>Don't have an account? <a href="#" id="show-signup">Sign Up</a></p>
+        </div>
+      </div>
     </div>
   </div>
-</div>
- 
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>📷 PixTrim</h1>
+    <p>Compress your images effortlessly and optimize your website's performance.</p>
+    <div class="upload-section">
+      <label for="file-input">📤 Upload Image</label>
+      <input type="file" id="file-input" accept="image/*">
+    </div>
+    <div class="compress-level">
+      <label for="compress-range">🔧 Compression Level: <span id="compress-value">50</span>%</label>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span>Decrease ←</span>
+        <input type="range" id="compress-range" min="1" max="100" value="50">
+        <span>→ Increase</span>
+      </div>
+    </div>
+  </div>
+  
   <!-- Results Table -->
   <div class="container">
     <table class="results-table">
@@ -503,19 +653,19 @@
   <div class="testimonials">
     <h2>What Our Users Say</h2>
     <div class="testimonial">
-      <p>"SnapShrink made optimizing my website images so easy! Highly recommended."</p>
-      <span>- Jane Doe</span>
+      <p>"PixTrim made optimizing my website images so easy! Highly recommended."</p>
+      <span>- Jane Doe, Web Developer</span>
     </div>
     <div class="testimonial">
       <p>"The compression quality is amazing, and the interface is super intuitive."</p>
-      <span>- John Smith</span>
+      <span>- John Smith, Photographer</span>
     </div>
   </div>
 
   <!-- Footer -->
   <footer>
     <div class="footer-content">
-      <p>© 2023 SnapShrink. All rights reserved.</p>
+      <p>© 2023 PixTrim. All rights reserved.</p>
       <div class="social-links">
         <a href="#">Twitter</a>
         <a href="#">LinkedIn</a>
@@ -527,38 +677,288 @@
   <!-- Dark Mode Toggle -->
   <button id="dark-mode-toggle">🌙</button>
 
-  <!-- Vercel Analytics Script -->
-  <script type="module">
-    import { inject } from 'https://unpkg.com/@vercel/analytics';
-    inject();
-  </script>
+  <!-- Usage Counter -->
+  <div class="usage-counter" id="usage-counter" style="display: none;">
+    Free uses left: <span id="remaining-uses">3</span>/3
+  </div>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-W34PSKXY8J"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Firebase and other scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
-  gtag('config', 'G-W34PSKXY8J');
-</script>
-  
   <script>
+    // Firebase configuration - REPLACE WITH YOUR ACTUAL CONFIG
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvfRTDul7CnlwW_casoslvAwEDhvOvbv0",
+      authDomain: "pixtrim.firebaseapp.com",
+      projectId: "pixtrim",
+      storageBucket: "pixtrim.firebasestorage.app",
+      messagingSenderId: "268832698971",
+      appId: "1:268832698971:web:2991712732b74fa4bbc57e"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // DOM Elements
     const fileInput = document.getElementById('file-input');
     const compressRange = document.getElementById('compress-range');
     const compressValue = document.getElementById('compress-value');
     const resultsBody = document.getElementById('results-body');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+    const modal = document.getElementById('auth-modal');
+    const authLink = document.getElementById('auth-link');
+    const closeBtn = document.querySelector('.close');
+    const showLogin = document.getElementById('show-login');
+    const showSignup = document.getElementById('show-signup');
+    const signupForm = document.getElementById('signup-form');
+    const loginForm = document.getElementById('login-form');
+    const signupBtn = document.getElementById('signup-btn');
+    const loginBtn = document.getElementById('login-btn');
+    const signupMessage = document.getElementById('signup-message');
+    const loginMessage = document.getElementById('login-message');
+    const usageCounter = document.getElementById('usage-counter');
+    const remainingUses = document.getElementById('remaining-uses');
 
     // Update compression level value
     compressRange.addEventListener('input', () => {
       compressValue.textContent = compressRange.value;
     });
 
+    // Auth state listener
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in
+        authLink.textContent = '👤 Account';
+        checkUserUsage(user.uid);
+        updateUsageCounter(user.uid);
+      } else {
+        // No user is signed in
+        authLink.textContent = '🔒 Login';
+        updateAnonymousUsageCounter();
+      }
+    });
+
+    // Modal functionality
+    authLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (auth.currentUser) {
+        // User is logged in, redirect to account page
+        window.location.href = 'account.html';
+      } else {
+        modal.style.display = 'block';
+        // Show signup form by default
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        // Clear messages
+        signupMessage.style.display = 'none';
+        loginMessage.style.display = 'none';
+      }
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    showLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      signupForm.style.display = 'none';
+      loginForm.style.display = 'block';
+      signupMessage.style.display = 'none';
+    });
+
+    showSignup.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginForm.style.display = 'none';
+      signupForm.style.display = 'block';
+      loginMessage.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Sign up
+    signupBtn.addEventListener('click', () => {
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      
+      // Validate password length
+      if (password.length < 6) {
+        showMessage(signupMessage, 'Password must be at least 6 characters', 'error');
+        return;
+      }
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Create user document in Firestore
+          return db.collection('users').doc(userCredential.user.uid).set({
+            email: email,
+            usageCount: 0,
+            isSubscribed: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            anonymousUses: localStorage.getItem('anonymousUsage') || 0
+          });
+        })
+        .then(() => {
+          showMessage(signupMessage, 'Account created successfully! Redirecting...', 'success');
+          // Clear localStorage anonymous usage
+          localStorage.removeItem('anonymousUsage');
+          // Close modal after 2 seconds
+          setTimeout(() => {
+            modal.style.display = 'none';
+          }, 2000);
+        })
+        .catch((error) => {
+          showMessage(signupMessage, error.message, 'error');
+        });
+    });
+
+    // Login
+    loginBtn.addEventListener('click', () => {
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          showMessage(loginMessage, 'Logged in successfully! Redirecting...', 'success');
+          // Close modal after 2 seconds
+          setTimeout(() => {
+            modal.style.display = 'none';
+          }, 2000);
+        })
+        .catch((error) => {
+          showMessage(loginMessage, error.message, 'error');
+        });
+    });
+
+    // Show message in form
+    function showMessage(element, message, type) {
+      element.textContent = message;
+      element.className = `form-message ${type}`;
+      element.style.display = 'block';
+    }
+
+    // Check user's usage count
+    function checkUserUsage(userId) {
+      return db.collection('users').doc(userId).get()
+        .then((doc) => {
+          if (doc.exists) {
+            const userData = doc.data();
+            if (!userData.isSubscribed && userData.usageCount >= 3) {
+              alert('You have reached your free limit. Please subscribe to continue using the service.');
+              window.location.href = 'subscription.html';
+              return false;
+            }
+            return true;
+          }
+          return true;
+        });
+    }
+
+    // Track image compression usage
+    function trackUsage(userId) {
+      if (!userId) {
+        // User is not logged in, track in localStorage
+        let anonymousUsage = parseInt(localStorage.getItem('anonymousUsage') || 0;
+        if (anonymousUsage >= 3) {
+          alert('You have reached your free limit. Please sign up to continue using the service.');
+          modal.style.display = 'block';
+          return Promise.resolve(false);
+        }
+        anonymousUsage++;
+        localStorage.setItem('anonymousUsage', anonymousUsage);
+        updateAnonymousUsageCounter();
+        return Promise.resolve(true);
+      } else {
+        // User is logged in, track in Firestore
+        const userRef = db.collection('users').doc(userId);
+        return db.runTransaction((transaction) => {
+          return transaction.get(userRef).then((doc) => {
+            if (!doc.exists) {
+              throw "Document does not exist!";
+            }
+            
+            const userData = doc.data();
+            if (userData.isSubscribed) {
+              return true; // Subscribed users have unlimited usage
+            }
+            
+            if (userData.usageCount >= 3) {
+              return false; // Free user has reached limit
+            }
+            
+            transaction.update(userRef, {
+              usageCount: firebase.firestore.FieldValue.increment(1)
+            });
+            return true;
+          });
+        }).then((result) => {
+          if (!result) {
+            alert('You have reached your free limit. Please subscribe to continue using the service.');
+            window.location.href = 'subscription.html';
+          }
+          updateUsageCounter(userId);
+          return result;
+        }).catch((error) => {
+          console.error("Transaction failed: ", error);
+          return false;
+        });
+      }
+    }
+
+    // Update usage counter display for logged-in users
+    function updateUsageCounter(userId) {
+      db.collection('users').doc(userId).get().then((doc) => {
+        if (doc.exists) {
+          const userData = doc.data();
+          if (userData.isSubscribed) {
+            usageCounter.style.display = 'none';
+          } else {
+            const remaining = 3 - (userData.usageCount || 0);
+            remainingUses.textContent = remaining;
+            usageCounter.style.display = 'block';
+          }
+        }
+      });
+    }
+
+    // Update usage counter display for anonymous users
+    function updateAnonymousUsageCounter() {
+      if (auth.currentUser) return; // Skip if user is logged in
+      
+      const anonymousUsage = parseInt(localStorage.getItem('anonymousUsage') || 0);
+      const remaining = 3 - anonymousUsage;
+      
+      if (remaining <= 0) {
+        usageCounter.style.display = 'none';
+      } else {
+        remainingUses.textContent = remaining;
+        usageCounter.style.display = 'block';
+      }
+    }
+
     // Handle file upload and compression
-    fileInput.addEventListener('change', (event) => {
+    fileInput.addEventListener('change', async (event) => {
       const file = event.target.files[0];
       if (!file) return;
 
+      // Check if user is allowed to compress
+      const userId = auth.currentUser ? auth.currentUser.uid : null;
+      const isAllowed = await trackUsage(userId);
+      
+      if (!isAllowed) {
+        fileInput.value = ''; // Clear the file input
+        return;
+      }
+
+      // Proceed with compression if allowed
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new Image();
@@ -568,14 +968,10 @@
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
 
-          // Set canvas dimensions
           canvas.width = img.width;
           canvas.height = img.height;
-
-          // Draw image on canvas
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-          // Compress image
           const quality = compressRange.value / 100;
           canvas.toBlob(
             (blob) => {
@@ -583,8 +979,6 @@
                 type: 'image/jpeg',
                 lastModified: Date.now(),
               });
-
-              // Display results
               displayResults(file, compressedFile);
             },
             'image/jpeg',
@@ -633,13 +1027,18 @@
     }
 
     // Dark Mode Toggle
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    const body = document.body;
-
     darkModeToggle.addEventListener('click', () => {
       body.classList.toggle('dark-mode');
       darkModeToggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+      // Save preference to localStorage
+      localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
     });
+
+    // Check for saved dark mode preference
+    if (localStorage.getItem('darkMode') === 'true') {
+      body.classList.add('dark-mode');
+      darkModeToggle.textContent = '☀️';
+    }
 
     // Scroll Animations
     const sections = document.querySelectorAll('.hero, .features, .testimonials, footer');
@@ -656,6 +1055,9 @@
     );
 
     sections.forEach((section) => observer.observe(section));
+
+    // Initialize usage counter
+    updateAnonymousUsageCounter();
   </script>
 </body>
 </html>
