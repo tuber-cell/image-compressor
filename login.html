@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | PixTrim</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #1c1c1c;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 320px;
+      box-shadow: 0 0 20px #0f0f0f;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #00b894;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #019875;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Login to PixTrim</h2>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button id="loginBtn">Log In</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvfRTDul7CnlwW_casoslvAwEDhvOvbv0",
+      authDomain: "pixtrim.firebaseapp.com",
+      projectId: "pixtrim",
+      storageBucket: "pixtrim.firebasestorage.app",
+      messagingSenderId: "268832698971",
+      appId: "1:268832698971:web:2991712732b74fa4bbc57e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginBtn = document.getElementById("loginBtn");
+    loginBtn.addEventListener("click", async () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Login successful!");
+        // redirect to home or dashboard
+        window.location.href = "index.html";
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
