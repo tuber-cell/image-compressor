@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Subscribe - PixTrim Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #4e54c8, #8f94fb);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .card img {
+      width: 80px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .card h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .price {
+      font-size: 20px;
+      margin: 10px 0;
+      color: #4e54c8;
+      font-weight: bold;
+    }
+
+    ul.features {
+      text-align: left;
+      list-style: none;
+      margin: 20px 0;
+      padding: 0;
+    }
+
+    ul.features li {
+      margin-bottom: 12px;
+      font-size: 16px;
+      color: #555;
+      position: relative;
+      padding-left: 24px;
+    }
+
+    ul.features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: green;
+      font-weight: bold;
+    }
+
+    #subscribeBtn {
+      background-color: #667eea;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #subscribeBtn:hover {
+      background-color: #5a63db;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <img src="https://image-compressor-five-azure.vercel.app/logo.jpg" alt="PixTrim Logo">
+    <h1>PixTrim Pro</h1>
+    <p class="price">$5 / year</p>
+
+    <ul class="features">
+      <li>No Ads</li>
+      <li>Unlimited Image Compression</li>
+      <li>Any Image Size</li>
+    </ul>
+
+    <button id="subscribeBtn">Subscribe Now</button>
+
+    <div class="footer">
+      Safe & Secure Payment via Razorpay
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('subscribeBtn').onclick = async function (e) {
+      e.preventDefault();
+
+      try {
+        const res = await fetch('http://localhost:5000/create-subscription', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        const data = await res.json();
+
+        var options = {
+          "key": "YOUR_KEY_ID", // Replace with your Razorpay public key
+          "subscription_id": data.subscriptionId,
+          "name": "PixTrim Pro",
+          "description": "1-Year Plan ($5)",
+          "image": "https://image-compressor-five-azure.vercel.app/logo.jpg",
+          "handler": function (response) {
+            alert("Subscription successful! Payment ID: " + response.razorpay_payment_id);
+          },
+          "theme": {
+            "color": "#667eea"
+          }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+      } catch (err) {
+        alert("Failed to create subscription. Try again.");
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
