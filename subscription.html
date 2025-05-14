@@ -366,7 +366,7 @@
         const token = await user.getIdToken();
         
         // 2. Create subscription (call your backend)
-        const response = await fetch('https://your-backend-api.com/create-subscription', {
+        const response = await fetch('https://pixtrim7.onrender.com/create-subscription', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -381,7 +381,7 @@
 
         // 3. Open Razorpay checkout
         const options = {
-          key: firebaseConfig.apiKey, // Use Razorpay key here
+          key: rzp_test_unNrjp3l9bBRde, // Use Razorpay key here
           subscription_id: subscriptionId,
           name: "PixTrim Pro",
           description: "Annual Subscription (₹499/year)",
@@ -395,7 +395,7 @@
           },
           handler: async (response) => {
             // 4. Verify payment with backend
-            const verification = await fetch('https://your-backend-api.com/verify-payment', {
+            const verification = await fetch('https://pixtrim7.onrender.com/verify-payment', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
