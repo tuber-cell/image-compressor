@@ -1074,5 +1074,34 @@
     // Initialize usage counter
     updateAnonymousUsageCounter();
   </script>
+
+<script>
+  // Example check: Get subscription status from localStorage or backend
+  const isSubscribed = localStorage.getItem("pixtrim_subscribed") === "true";
+
+  window.addEventListener("DOMContentLoaded", () => {
+    if (isSubscribed) {
+      // Unlock full features
+      document.querySelectorAll('.premium-feature').forEach(el => {
+        el.style.display = 'block';
+      });
+      document.querySelectorAll('.free-limit-warning').forEach(el => {
+        el.remove();
+      });
+    } else {
+      // Enforce free usage limits
+      // For example, limit number of uploads or compression quality
+      document.querySelectorAll('.premium-feature').forEach(el => {
+        el.style.display = 'none';
+      });
+
+      const warning = document.createElement('div');
+      warning.className = 'free-limit-warning';
+      warning.style = 'color: red; text-align: center; margin-top: 1rem;';
+      warning.innerText = 'Upgrade to Pro to remove image size and upload limits.';
+      document.querySelector('.upload-section').appendChild(warning);
+    }
+  });
+</script>
 </body>
 </html>
