@@ -14,10 +14,81 @@
     h1 {
       color: #2ecc71;
     }
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
   <h1>🎉 Payment Successful!</h1>
   <p>Thank you for subscribing to our service.</p>
+  <div class="loader" id="loader"></div>
+  <p id="status-message">Activating your subscription...</p>
+
+  <!-- Firebase scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <script>
+    // Firebase configuration - must match your home page config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZ_dD2VMAV023Vfyyevh0ud2CsxA2HDfQ",
+      authDomain: "pixtrimpr.firebaseapp.com",
+      projectId: "pixtrimpr",
+      storageBucket: "pixtrimpr.appspot.com",
+      messagingSenderId: "168373294033",
+      appId: "1:168373294033:web:4256e1e7e8bb5cc81846f0"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Check if user is logged in and update subscription status
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, update their subscription status
+        updateSubscriptionStatus(user.uid);
+      } else {
+        // No user is signed in, redirect to home after delay
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 3000);
+      }
+    });
+
+    function updateSubscriptionStatus(userId) {
+      const statusMessage = document.getElementById('status-message');
+      
+      // Update the user's subscription status in Firestore
+      db.collection('users').doc(userId).update({
+        isSubscribed: true,
+        subscriptionDate: firebase.firestore.FieldValue.serverTimestamp()
+      })
+      .then(() => {
+        statusMessage.textContent = 'Subscription activated! Redirecting you to home page...';
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error("Error updating subscription status: ", error);
+        statusMessage.textContent = 'There was an error activating your subscription. Please contact support.';
+        document.getElementById('loader').style.display = 'none';
+      });
+    }
+  </script>
 </body>
 </html>
