@@ -856,7 +856,7 @@
     // Show message in form
     function showMessage(element, message, type) {
       element.textContent = message;
-      element.className = form-message ${type};
+      element.className = `form-message ${type}`;
       element.style.display = 'block';
     }
 
@@ -1016,13 +1016,13 @@
 
       // Original Size
       const originalSizeCell = document.createElement('td');
-      originalSizeCell.textContent = ${(originalFile.size / 1024).toFixed(2)} KB;
+      originalSizeCell.textContent = `${(originalFile.size / 1024).toFixed(2)} KB`;
       originalSizeCell.setAttribute('data-label', 'Original Size');
       row.appendChild(originalSizeCell);
 
       // Compressed Size
       const compressedSizeCell = document.createElement('td');
-      compressedSizeCell.textContent = ${(compressedFile.size / 1024).toFixed(2)} KB;
+      compressedSizeCell.textContent = `${(compressedFile.size / 1024).toFixed(2)} KB`;
       compressedSizeCell.setAttribute('data-label', 'Compressed Size');
       row.appendChild(compressedSizeCell);
 
@@ -1030,7 +1030,7 @@
       const actionCell = document.createElement('td');
       const downloadLink = document.createElement('a');
       downloadLink.href = URL.createObjectURL(compressedFile);
-      downloadLink.download = compressed_${originalFile.name};
+      downloadLink.download = `compressed_${originalFile.name}`;
       downloadLink.className = 'download-btn';
       downloadLink.textContent = '⬇️ Download';
       actionCell.setAttribute('data-label', 'Action');
@@ -1076,5 +1076,3 @@
   </script>
 </body>
 </html>
-
-
