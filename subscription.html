@@ -370,50 +370,25 @@
 
       if (!response.ok) throw new Error(await response.text());
 
-     const result = await response.json();
-     console.log("Subscription API result:", result);
-     const { subscriptionId, key, userEmail, userName } = result;
+      const data = await response.json();
+      console.log("Subscription API result:", data);
+
+      const { subscriptionId, key, userEmail, userName } = data;
 
       const options = {
         key: key,
-        amount: data.amount,
-        currency:data.currency,
+        subscription_id: subscriptionId,
         name: "PixTrim Pro",
-        description: "Annual Subscription",
-        image: "/logo.png", // optional logo
-        subscription_id: data.subscriptionId,
+        description: "Annual Subscription - ₹499/year",
+        image: "https://pixtrim.com/logo.png", // Optional: add your logo URL
         handler: function (response) {
-          // Payment was successful, notify the backend
-          fetch('https://pixtrim7.onrender.com/verify-payment', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature
-            })
-          })
-          .then(res => {
-            if (!res.ok) throw new Error("Payment verification failed.");
-            return res.json();
-          })
-          .then(() => {
-            alert("Subscription successful! Welcome to PixTrim Pro.");
-            window.location.href = "/dashboard.html";
-          })
-          .catch(err => {
-            alert("Error verifying payment: " + err.message);
-          })
-          .finally(() => {
-            loadingOverlay.style.display = 'none';
-          });
+          alert("Payment successful! Razorpay ID: " + response.razorpay_payment_id);
+          // Optionally redirect to a success page or refresh
+          window.location.href = "/thank-you.html";
         },
         prefill: {
-          name: data.userName,
-          email: data.userEmail,
+          name: userName || user.displayName || "PixTrim User",
+          email: userEmail || user.email
         },
         theme: {
           color: "#4e54c8"
@@ -422,9 +397,10 @@
 
       const rzp = new Razorpay(options);
       rzp.open();
-
     } catch (error) {
-      alert("Subscription failed: " + error.message);
+      console.error("Subscription Error:", error);
+      alert("Something went wrong: " + error.message);
+    } finally {
       loadingOverlay.style.display = 'none';
     }
   });
