@@ -856,7 +856,7 @@
     // Show message in form
     function showMessage(element, message, type) {
       element.textContent = message;
-      element.className = `form-message ${type}`;
+      element.className = form-message ${type};
       element.style.display = 'block';
     }
 
@@ -1016,13 +1016,13 @@
 
       // Original Size
       const originalSizeCell = document.createElement('td');
-      originalSizeCell.textContent = `${(originalFile.size / 1024).toFixed(2)} KB`;
+      originalSizeCell.textContent = ${(originalFile.size / 1024).toFixed(2)} KB;
       originalSizeCell.setAttribute('data-label', 'Original Size');
       row.appendChild(originalSizeCell);
 
       // Compressed Size
       const compressedSizeCell = document.createElement('td');
-      compressedSizeCell.textContent = `${(compressedFile.size / 1024).toFixed(2)} KB`;
+      compressedSizeCell.textContent = ${(compressedFile.size / 1024).toFixed(2)} KB;
       compressedSizeCell.setAttribute('data-label', 'Compressed Size');
       row.appendChild(compressedSizeCell);
 
@@ -1030,7 +1030,7 @@
       const actionCell = document.createElement('td');
       const downloadLink = document.createElement('a');
       downloadLink.href = URL.createObjectURL(compressedFile);
-      downloadLink.download = `compressed_${originalFile.name}`;
+      downloadLink.download = compressed_${originalFile.name};
       downloadLink.className = 'download-btn';
       downloadLink.textContent = '⬇️ Download';
       actionCell.setAttribute('data-label', 'Action');
@@ -1074,34 +1074,7 @@
     // Initialize usage counter
     updateAnonymousUsageCounter();
   </script>
-
-<script>
-  // Example check: Get subscription status from localStorage or backend
-  const isSubscribed = localStorage.getItem("pixtrim_subscribed") === "true";
-
-  window.addEventListener("DOMContentLoaded", () => {
-    if (isSubscribed) {
-      // Unlock full features
-      document.querySelectorAll('.premium-feature').forEach(el => {
-        el.style.display = 'block';
-      });
-      document.querySelectorAll('.free-limit-warning').forEach(el => {
-        el.remove();
-      });
-    } else {
-      // Enforce free usage limits
-      // For example, limit number of uploads or compression quality
-      document.querySelectorAll('.premium-feature').forEach(el => {
-        el.style.display = 'none';
-      });
-
-      const warning = document.createElement('div');
-      warning.className = 'free-limit-warning';
-      warning.style = 'color: red; text-align: center; margin-top: 1rem;';
-      warning.innerText = 'Upgrade to Pro to remove image size and upload limits.';
-      document.querySelector('.upload-section').appendChild(warning);
-    }
-  });
-</script>
 </body>
 </html>
+
+
