@@ -376,12 +376,12 @@
 
       const options = {
         key: key,
-        amount: amount,
-        currency: currency,
+        amount: data.amount,
+        currency:data.currency,
         name: "PixTrim Pro",
         description: "Annual Subscription",
         image: "/logo.png", // optional logo
-        subscription_id: subscriptionId,
+        subscription_id: data.subscriptionId,
         handler: function (response) {
           // Payment was successful, notify the backend
           fetch('https://pixtrim7.onrender.com/verify-payment', {
@@ -412,8 +412,8 @@
           });
         },
         prefill: {
-          name: userName || "PixTrim User",
-          email: userEmail || user.email
+          name: data.userName,
+          email: data.userEmail,
         },
         theme: {
           color: "#4e54c8"
