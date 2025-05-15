@@ -318,9 +318,8 @@
     </div>
   </div>
 
-  <script>
+<script>
   // === JavaScript ===
-  // Firebase Configuration (Replace with your config)
   const firebaseConfig = {
     apiKey: "AIzaSyAZ_dD2VMAV023Vfyyevh0ud2CsxA2HDfQ",
     authDomain: "pixtrimpr.firebaseapp.com",
@@ -330,27 +329,23 @@
     appId: "1:168373294033:web:4256e1e7e8bb5cc81846f0"
   };
 
-  // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
-  // DOM Elements
   const subscribeBtn = document.getElementById('subscribeBtn');
   const loadingOverlay = document.getElementById('loadingOverlay');
   const loginPrompt = document.getElementById('loginPrompt');
   const loginBtn = document.getElementById('loginBtn');
   const cancelBtn = document.getElementById('cancelBtn');
 
-  // Handle Login Prompt
   loginBtn.addEventListener('click', () => {
-    window.location.href = '/login.html'; // Redirect to login page
+    window.location.href = '/login.html';
   });
 
   cancelBtn.addEventListener('click', () => {
     loginPrompt.style.display = 'none';
   });
 
-  // Handle Subscription Click
   subscribeBtn.addEventListener('click', async () => {
     const user = auth.currentUser;
 
@@ -364,19 +359,18 @@
     try {
       const token = await user.getIdToken();
 
-      // Call your backend to create Razorpay order
       const response = await fetch('https://pixtrim7.onrender.com/create-subscription', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ plan: "pro-annual" }) // Send plan if needed
+        body: JSON.stringify({ plan: "pro-annual" })
       });
 
       if (!response.ok) throw new Error(await response.text());
 
-      const { orderId, amount, currency, key, name, email } = await response.json();
+      const { orderId, key, amount, currency, userEmail, userName } = await response.json();
 
       const options = {
         key: key,
@@ -384,55 +378,51 @@
         currency: currency,
         name: "PixTrim Pro",
         description: "Annual Subscription",
+        image: "/logo.png", // optional logo
         order_id: orderId,
+        handler: function (response) {
+          // Payment was successful, notify the backend
+          fetch('https://pixtrim7.onrender.com/verify-payment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature
+            })
+          })
+          .then(res => {
+            if (!res.ok) throw new Error("Payment verification failed.");
+            return res.json();
+          })
+          .then(() => {
+            alert("Subscription successful! Welcome to PixTrim Pro.");
+            window.location.href = "/dashboard.html";
+          })
+          .catch(err => {
+            alert("Error verifying payment: " + err.message);
+          })
+          .finally(() => {
+            loadingOverlay.style.display = 'none';
+          });
+        },
         prefill: {
-          name: name,
-          email: email
+          name: userName || "",
+          email: userEmail || user.email
         },
         theme: {
           color: "#4e54c8"
-        },
-        handler: async function (response) {
-          // Send payment success info to backend to verify
-          try {
-            const verifyRes = await fetch('https://your-backend-api.com/verify-subscription', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-              },
-              body: JSON.stringify({
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_signature: response.razorpay_signature
-              })
-            });
-
-            if (!verifyRes.ok) throw new Error(await verifyRes.text());
-
-            alert("🎉 Subscription successful! Welcome to PixTrim Pro.");
-            window.location.href = '/dashboard.html'; // or wherever you want
-
-          } catch (error) {
-            console.error("Verification failed:", error);
-            alert("❌ Payment succeeded but verification failed. Contact support.");
-          } finally {
-            loadingOverlay.style.display = 'none';
-          }
-        },
-        modal: {
-          ondismiss: function () {
-            loadingOverlay.style.display = 'none';
-          }
         }
       };
 
-      const razorpay = new Razorpay(options);
-      razorpay.open();
+      const rzp = new Razorpay(options);
+      rzp.open();
 
     } catch (error) {
-      console.error("Subscription error:", error);
-      alert("⚠️ Something went wrong. Please try again.");
+      alert("Subscription failed: " + error.message);
       loadingOverlay.style.display = 'none';
     }
   });
