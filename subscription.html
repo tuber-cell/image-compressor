@@ -370,7 +370,9 @@
 
       if (!response.ok) throw new Error(await response.text());
 
-      const { orderId, key, amount, currency, userEmail, userName } = await response.json();
+     const result = await response.json();
+     console.log("Subscription API result:", result);
+     const { subscriptionId, key, userEmail, userName } = result;
 
       const options = {
         key: key,
@@ -379,7 +381,7 @@
         name: "PixTrim Pro",
         description: "Annual Subscription",
         image: "/logo.png", // optional logo
-        order_id: orderId,
+        subscription_id: subscriptionId,,
         handler: function (response) {
           // Payment was successful, notify the backend
           fetch('https://pixtrim7.onrender.com/verify-payment', {
