@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account - PixTrim</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      margin: 0;
+      padding: 0;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    body.dark-mode {
+      background: #121212;
+      color: #ffffff;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      backdrop-filter: blur(10px);
+      transition: background 0.3s ease;
+    }
+
+    body.dark-mode .navbar {
+      background: rgba(30, 30, 30, 0.9);
+    }
+
+    .navbar a {
+      color: #444;
+      text-decoration: none;
+      font-size: 1rem;
+      margin: 0 15px;
+      padding: 8px 16px;
+      border-radius: 5px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark-mode .navbar a {
+      color: #ffffff;
+    }
+
+    .navbar a:hover {
+      background: #667eea;
+      color: #fff;
+    }
+
+    /* Account Container */
+    .account-container {
+      max-width: 800px;
+      margin: 80px auto 40px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark-mode .account-container {
+      background: rgba(30, 30, 30, 0.95);
+    }
+
+    /* Account Header */
+    .account-header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    body.dark-mode .account-header {
+      border-bottom-color: #444;
+    }
+
+    .account-header h1 {
+      font-size: 2.5rem;
+      color: #4e54c8;
+      margin-bottom: 10px;
+    }
+
+    .account-header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    body.dark-mode .account-header p {
+      color: #ccc;
+    }
+
+    /* Account Sections */
+    .account-section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 10px;
+    }
+
+    body.dark-mode .account-section {
+      background: #2c2c2c;
+    }
+
+    .account-section h2 {
+      font-size: 1.5rem;
+      color: #4e54c8;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    .account-section h2 .emoji {
+      margin-right: 10px;
+    }
+
+    /* User Info */
+    .user-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .info-item {
+      margin-bottom: 15px;
+    }
+
+    .info-item label {
+      display: block;
+      font-weight: 500;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    body.dark-mode .info-item label {
+      color: #aaa;
+    }
+
+    .info-item .value {
+      font-size: 1.1rem;
+      padding: 8px 12px;
+      background: white;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
+    body.dark-mode .info-item .value {
+      background: #1e1e1e;
+      border-color: #444;
+      color: #fff;
+    }
+
+    /* Subscription Status */
+    .subscription-status {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .status-badge {
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+
+    .status-active {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    body.dark-mode .status-active {
+      background: #155724;
+      color: #d4edda;
+    }
+
+    .status-inactive {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    body.dark-mode .status-inactive {
+      background: #721c24;
+      color: #f8d7da;
+    }
+
+    .subscription-details {
+      margin-top: 15px;
+    }
+
+    /* Usage Stats */
+    .usage-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .stat-card {
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    body.dark-mode .stat-card {
+      background: #1e1e1e;
+    }
+
+    .stat-card .number {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #4e54c8;
+      margin-bottom: 5px;
+    }
+
+    .stat-card .label {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    body.dark-mode .stat-card .label {
+      color: #aaa;
+    }
+
+    /* Buttons */
+    .account-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: #4e54c8;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #4348a1;
+    }
+
+    .btn-secondary {
+      background: #f1f1f1;
+      color: #333;
+    }
+
+    body.dark-mode .btn-secondary {
+      background: #444;
+      color: #fff;
+    }
+
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+
+    body.dark-mode .btn-secondary:hover {
+      background: #555;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #c82333;
+    }
+
+    /* Dark Mode Toggle */
+    #dark-mode-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #667eea;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    #dark-mode-toggle:hover {
+      background: #5a6fd1;
+      transform: scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .account-container {
+        margin: 80px 15px 40px;
+        padding: 15px;
+      }
+      
+      .user-info {
+        grid-template-columns: 1fr;
+      }
+      
+      .usage-stats {
+        grid-template-columns: 1fr;
+      }
+      
+      .account-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <a href="/">🏠 Home</a>
+    <a href="/blog.html">📝 Blog</a>
+    <a href="subscription.html">💎 Subscribe</a>
+    <a href="#" id="auth-link">👤 Account</a>
+  </div>
+
+  <!-- Account Container -->
+  <div class="account-container">
+    <div class="account-header">
+      <h1>My Account</h1>
+      <p>Manage your PixTrim settings and subscription</p>
+    </div>
+
+    <!-- User Information Section -->
+    <div class="account-section">
+      <h2><span class="emoji">👤</span> Profile Information</h2>
+      <div class="user-info">
+        <div class="info-item">
+          <label>Email Address</label>
+          <div class="value" id="user-email">Loading...</div>
+        </div>
+        <div class="info-item">
+          <label>Account Created</label>
+          <div class="value" id="account-created">Loading...</div>
+        </div>
+        <div class="info-item">
+          <label>User ID</label>
+          <div class="value" id="user-id">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subscription Section -->
+    <div class="account-section">
+      <h2><span class="emoji">💎</span> Subscription Status</h2>
+      <div class="subscription-status">
+        <div class="status-badge" id="subscription-badge">Loading...</div>
+        <div id="subscription-text">Checking subscription status...</div>
+      </div>
+      <div class="subscription-details" id="subscription-details">
+        <!-- Subscription details will be populated here -->
+      </div>
+      <div class="account-actions">
+        <button id="manage-subscription" class="btn btn-primary">Manage Subscription</button>
+        <button id="upgrade-subscription" class="btn btn-secondary">Upgrade Plan</button>
+      </div>
+    </div>
+
+    <!-- Usage Statistics -->
+    <div class="account-section">
+      <h2><span class="emoji">📊</span> Usage Statistics</h2>
+      <div class="usage-stats">
+        <div class="stat-card">
+          <div class="number" id="compression-count">0</div>
+          <div class="label">Images Compressed</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="remaining-credits">0</div>
+          <div class="label">Remaining Credits</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="total-savings">0MB</div>
+          <div class="label">Total Bandwidth Saved</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account Actions -->
+    <div class="account-section">
+      <h2><span class="emoji">⚙️</span> Account Actions</h2>
+      <div class="account-actions">
+        <button id="change-password" class="btn btn-secondary">Change Password</button>
+        <button id="logout-btn" class="btn btn-danger">Log Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dark Mode Toggle -->
+  <button id="dark-mode-toggle">🌙</button>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZ_dD2VMAV023Vfyyevh0ud2CsxA2HDfQ",
+      authDomain: "pixtrimpr.firebaseapp.com",
+      projectId: "pixtrimpr",
+      storageBucket: "pixtrimpr.firebasestorage.app",
+      messagingSenderId: "168373294033",
+      appId: "1:168373294033:web:4256e1e7e8bb5cc81846f0"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // DOM Elements
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+    const authLink = document.getElementById('auth-link');
+    const userEmail = document.getElementById('user-email');
+    const accountCreated = document.getElementById('account-created');
+    const userId = document.getElementById('user-id');
+    const subscriptionBadge = document.getElementById('subscription-badge');
+    const subscriptionText = document.getElementById('subscription-text');
+    const subscriptionDetails = document.getElementById('subscription-details');
+    const compressionCount = document.getElementById('compression-count');
+    const remainingCredits = document.getElementById('remaining-credits');
+    const totalSavings = document.getElementById('total-savings');
+    const manageSubscriptionBtn = document.getElementById('manage-subscription');
+    const upgradeSubscriptionBtn = document.getElementById('upgrade-subscription');
+    const changePasswordBtn = document.getElementById('change-password');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    // Check for saved dark mode preference
+    if (localStorage.getItem('darkMode') === 'true') {
+      body.classList.add('dark-mode');
+      darkModeToggle.textContent = '☀️';
+    }
+
+    // Dark Mode Toggle
+    darkModeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      darkModeToggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+      localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+    });
+
+    // Auth state listener
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in
+        loadUserData(user);
+      } else {
+        // No user is signed in, redirect to home
+        window.location.href = '/';
+      }
+    });
+
+    // Load user data from Firestore
+    function loadUserData(user) {
+      // Basic user info
+      userEmail.textContent = user.email;
+      userId.textContent = user.uid;
+      
+      // Format account creation date
+      const creationDate = new Date(user.metadata.creationTime);
+      accountCreated.textContent = creationDate.toLocaleDateString('en-US', {
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      // Get user document from Firestore
+      db.collection('users').doc(user.uid).get().then((doc) => {
+        if (doc.exists) {
+          const userData = doc.data();
+          
+          // Update subscription status
+          updateSubscriptionStatus(userData);
+          
+          // Update usage stats
+          if (userData.usageCount) {
+            compressionCount.textContent = userData.usageCount;
+            const remaining = userData.isSubscribed ? '∞' : (3 - userData.usageCount);
+            remainingCredits.textContent = remaining;
+          }
+          
+          // Calculate total savings (example calculation)
+          if (userData.totalSavings) {
+            totalSavings.textContent = userData.totalSavings + 'MB';
+          } else {
+            // Default estimation if no data exists
+            const estimatedSavings = userData.usageCount ? userData.usageCount * 0.5 : 0;
+            totalSavings.textContent = estimatedSavings.toFixed(1) + 'MB';
+          }
+        }
+      }).catch((error) => {
+        console.error("Error getting user document:", error);
+      });
+    }
+
+    // Update subscription status display
+    function updateSubscriptionStatus(userData) {
+      if (userData.isSubscribed) {
+        subscriptionBadge.textContent = 'ACTIVE';
+        subscriptionBadge.className = 'status-badge status-active';
+        subscriptionText.textContent = 'You have an active PixTrim Pro subscription';
+        
+        // Subscription details
+        let detailsHTML = '';
+        
+        if (userData.subscriptionDate) {
+          const subDate = userData.subscriptionDate.toDate();
+          detailsHTML += `
+            <p><strong>Subscription Date:</strong> ${subDate.toLocaleDateString()}</p>
+          `;
+        }
+        
+        if (userData.subscriptionPlan) {
+          detailsHTML += `
+            <p><strong>Plan:</strong> ${userData.subscriptionPlan}</p>
+          `;
+        } else {
+          detailsHTML += `
+            <p><strong>Plan:</strong> Pro Annual</p>
+          `;
+        }
+        
+        subscriptionDetails.innerHTML = detailsHTML;
+      } else {
+        subscriptionBadge.textContent = 'INACTIVE';
+        subscriptionBadge.className = 'status-badge status-inactive';
+        subscriptionText.textContent = 'You are currently using the free version of PixTrim';
+        subscriptionDetails.innerHTML = `
+          <p>Upgrade to PixTrim Pro for unlimited compressions and premium features.</p>
+        `;
+      }
+    }
+
+    // Button event listeners
+    manageSubscriptionBtn.addEventListener('click', () => {
+      alert('Subscription management portal will open in a new window.');
+      // In a real implementation, you would redirect to your subscription management portal
+      // window.open('https://your-payment-portal.com/manage', '_blank');
+    });
+
+    upgradeSubscriptionBtn.addEventListener('click', () => {
+      window.location.href = 'subscription.html';
+    });
+
+    changePasswordBtn.addEventListener('click', () => {
+      const user = auth.currentUser;
+      const newPassword = prompt('Please enter your new password (min 6 characters):');
+      
+      if (newPassword && newPassword.length >= 6) {
+        user.updatePassword(newPassword).then(() => {
+          alert('Password updated successfully!');
+        }).catch((error) => {
+          console.error("Error updating password:", error);
+          alert('Error updating password: ' + error.message);
+        });
+      } else if (newPassword) {
+        alert('Password must be at least 6 characters long.');
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      auth.signOut().then(() => {
+        window.location.href = '/';
+      }).catch((error) => {
+        console.error("Error signing out:", error);
+      });
+    });
+
+    // Prevent clicking on account link when already on account page
+    authLink.addEventListener('click', (e) => {
+      e.preventDefault();
+    });
+  </script>
+</body>
+</html>
