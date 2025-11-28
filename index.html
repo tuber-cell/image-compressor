@@ -749,12 +749,13 @@
       if (user) {
         // User is signed in
         authLink.textContent = '👤 Account';
-        checkUserUsage(user.uid);
-        updateUsageCounter(user.uid);
+        // Hide usage counter since we removed the limit
+        usageCounter.style.display = 'none';
       } else {
         // No user is signed in
         authLink.textContent = '🔒 Login';
-        updateAnonymousUsageCounter();
+        // Hide usage counter since we removed the limit
+        usageCounter.style.display = 'none';
       }
     });
 
@@ -860,103 +861,10 @@
       element.style.display = 'block';
     }
 
-    // Check user's usage count
-    function checkUserUsage(userId) {
-      return db.collection('users').doc(userId).get()
-        .then((doc) => {
-          if (doc.exists) {
-            const userData = doc.data();
-            if (!userData.isSubscribed && userData.usageCount >= 3) {
-              alert('You have reached your free limit. Please subscribe to continue using the service.');
-              window.location.href = 'subscription.html';
-              return false;
-            }
-            return true;
-          }
-          return true;
-        });
-    }
-
-    // Track image compression usage
+    // Track image compression usage (modified to always allow compression)
     function trackUsage(userId) {
-      if (!userId) {
-        // User is not logged in, track in localStorage
-        let anonymousUsage = parseInt(localStorage.getItem('anonymousUsage') || 0);
-        if (anonymousUsage >= 3) {
-          alert('You have reached your free limit. Please sign up to continue using the service.');
-          modal.style.display = 'block';
-          return Promise.resolve(false);
-        }
-        anonymousUsage++;
-        localStorage.setItem('anonymousUsage', anonymousUsage);
-        updateAnonymousUsageCounter();
-        return Promise.resolve(true);
-      } else {
-        // User is logged in, track in Firestore
-        const userRef = db.collection('users').doc(userId);
-        return db.runTransaction((transaction) => {
-          return transaction.get(userRef).then((doc) => {
-            if (!doc.exists) {
-              throw "Document does not exist!";
-            }
-            
-            const userData = doc.data();
-            if (userData.isSubscribed) {
-              return true; // Subscribed users have unlimited usage
-            }
-            
-            if (userData.usageCount >= 3) {
-              return false; // Free user has reached limit
-            }
-            
-            transaction.update(userRef, {
-              usageCount: firebase.firestore.FieldValue.increment(1)
-            });
-            return true;
-          });
-        }).then((result) => {
-          if (!result) {
-            alert('You have reached your free limit. Please subscribe to continue using the service.');
-            window.location.href = 'subscription.html';
-          }
-          updateUsageCounter(userId);
-          return result;
-        }).catch((error) => {
-          console.error("Transaction failed: ", error);
-          return false;
-        });
-      }
-    }
-
-    // Update usage counter display for logged-in users
-    function updateUsageCounter(userId) {
-      db.collection('users').doc(userId).get().then((doc) => {
-        if (doc.exists) {
-          const userData = doc.data();
-          if (userData.isSubscribed) {
-            usageCounter.style.display = 'none';
-          } else {
-            const remaining = 3 - (userData.usageCount || 0);
-            remainingUses.textContent = remaining;
-            usageCounter.style.display = 'block';
-          }
-        }
-      });
-    }
-
-    // Update usage counter display for anonymous users
-    function updateAnonymousUsageCounter() {
-      if (auth.currentUser) return; // Skip if user is logged in
-      
-      const anonymousUsage = parseInt(localStorage.getItem('anonymousUsage') || 0);
-      const remaining = 3 - anonymousUsage;
-      
-      if (remaining <= 0) {
-        usageCounter.style.display = 'none';
-      } else {
-        remainingUses.textContent = remaining;
-        usageCounter.style.display = 'block';
-      }
+      // Always return true to allow compression
+      return Promise.resolve(true);
     }
 
     // Handle file upload and compression
@@ -964,16 +872,15 @@
       const file = event.target.files[0];
       if (!file) return;
 
-      // Check if user is allowed to compress
-      const userId = auth.currentUser ? auth.currentUser.uid : null;
-      const isAllowed = await trackUsage(userId);
+      // Always allow compression (no limit check)
+      const isAllowed = await trackUsage(auth.currentUser ? auth.currentUser.uid : null);
       
       if (!isAllowed) {
         fileInput.value = ''; // Clear the file input
         return;
       }
 
-      // Proceed with compression if allowed
+      // Proceed with compression
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new Image();
@@ -1070,9 +977,6 @@
     );
 
     sections.forEach((section) => observer.observe(section));
-
-    // Initialize usage counter
-    updateAnonymousUsageCounter();
   </script>
 </body>
 </html>
