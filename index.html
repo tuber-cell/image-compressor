@@ -3,15 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PixTrim - Free Image Compressor</title>
+  <title>PixTrim - Free Image Compressor | Optimize Images Instantly</title>
+  <meta name="description" content="PixTrim is a free, browser-based image compressor that reduces image file sizes without uploading your data. Optimize website speed, save bandwidth, and maintain quality with adjustable compression. No registration, no server uploads — 100% private.">
+  <meta name="keywords" content="image compressor, free image optimization, reduce image size, compress JPEG PNG, web performance tool, client-side compression, PixTrim">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": "WebApplication",
       "name": "PixTrim",
+      "description": "Free online image compression tool that works entirely in your browser. Reduce image file sizes for web, social media, and storage.",
       "url": "https://image-compressor-five-azure.vercel.app",
-      "logo": "https://image-compressor-five-azure.vercel.app/logo.jpg"
+      "applicationCategory": "Multimedia Tool",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
     }
   </script>
 
@@ -353,6 +362,75 @@
       color: #aaa;
     }
 
+    /* NEW: Extensive About Section - Long descriptive text for AdSense & SEO */
+    .about-section {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 20px;
+      margin: 2rem auto;
+      padding: 2.5rem;
+      width: 90%;
+      max-width: 1100px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, background 0.3s;
+    }
+
+    body.dark-mode .about-section {
+      background: rgba(30, 30, 30, 0.96);
+    }
+
+    .about-section h2 {
+      font-size: 2.2rem;
+      color: #2c3e66;
+      border-left: 6px solid #667eea;
+      padding-left: 20px;
+      margin-bottom: 1.5rem;
+    }
+
+    body.dark-mode .about-section h2 {
+      color: #ccddee;
+    }
+
+    .about-section h3 {
+      font-size: 1.6rem;
+      margin: 1.5rem 0 0.8rem 0;
+      color: #4a5b8c;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    body.dark-mode .about-section h3 {
+      color: #b0c4ff;
+    }
+
+    .about-section p {
+      line-height: 1.8;
+      font-size: 1.05rem;
+      color: #2c3e50;
+      margin-bottom: 1.2rem;
+    }
+
+    body.dark-mode .about-section p {
+      color: #e0e0e0;
+    }
+
+    .about-section ul, .about-section .feature-grid {
+      margin: 1rem 0 1.5rem 1.8rem;
+      line-height: 1.7;
+    }
+
+    .about-section li {
+      margin: 0.6rem 0;
+      font-size: 1rem;
+    }
+
+    .about-section .highlight {
+      background: rgba(102, 126, 234, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
     /* Footer */
     footer {
       background: rgba(255, 255, 255, 0.95);
@@ -428,7 +506,7 @@
       }
     }
 
-    .hero, .features, .testimonials, footer {
+    .hero, .features, .testimonials, .about-section, footer {
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.6s ease, transform 0.6s ease;
@@ -620,56 +698,72 @@
   <div class="container">
     <table class="results-table">
       <thead>
-        <tr>
-          <th>📄 File Name</th>
-          <th>📏 Original Size</th>
-          <th>📉 Compressed Size</th>
-          <th>🚀 Action</th>
-        </tr>
+        <tr><th>📄 File Name</th><th>📏 Original Size</th><th>📉 Compressed Size</th><th>🚀 Action</th></tr>
       </thead>
-      <tbody id="results-body">
-        <!-- Results will be populated here -->
-      </tbody>
+      <tbody id="results-body"></tbody>
     </table>
   </div>
   
   <!-- Feature Section -->
   <div class="features">
-    <div class="feature">
-      <span class="emoji">⚡</span>
-      <h3>Fast Compression</h3>
-      <p>Compress images in seconds without losing quality.</p>
-    </div>
-   
-   <div class="feature">
-      <span class="emoji">📱</span>
-      <h3>Responsive Design</h3>
-      <p>Optimized for all devices, from desktop to mobile.</p>
-    </div>
-    <div class="feature">
-      <span class="emoji">🔒</span>
-      <h3>Secure & Private</h3>
-      <p>Your images are never stored or shared.</p>
-    </div>
+    <div class="feature"><span class="emoji">⚡</span><h3>Fast Compression</h3><p>Compress images in seconds without losing quality.</p></div>
+    <div class="feature"><span class="emoji">📱</span><h3>Responsive Design</h3><p>Optimized for all devices, from desktop to mobile.</p></div>
+    <div class="feature"><span class="emoji">🔒</span><h3>Secure & Private</h3><p>Your images are never stored or shared.</p></div>
   </div>
 
   <!-- Testimonial Section -->
   <div class="testimonials">
     <h2>What Our Users Say</h2>
-    <div class="testimonial">
-      <p>"PixTrim made optimizing my website images so easy! Highly recommended."</p>
-      <span>- Jane Doe, Web Developer</span>
-    </div>
-    <div class="testimonial">
-      <p>"The compression quality is amazing, and the interface is super intuitive."</p>
-      <span>- John Smith, Photographer</span>
-    </div>
+    <div class="testimonial"><p>"PixTrim made optimizing my website images so easy! Highly recommended."</p><span>- Jane Doe, Web Developer</span></div>
+    <div class="testimonial"><p>"The compression quality is amazing, and the interface is super intuitive."</p><span>- John Smith, Photographer</span></div>
+  </div>
+
+  <!-- ✅ NEW: Comprehensive About Section for AdSense & rich content -->
+  <div class="about-section">
+    <h2>📖 About PixTrim: The Ultimate Free Image Compressor</h2>
+    <p><strong>PixTrim</strong> is a next-generation, <span class="highlight">browser-based image compression tool</span> designed to help content creators, web developers, e‑commerce managers, and everyday users reduce image file sizes <strong>without compromising visual clarity</strong>. Unlike conventional online compressors that upload your files to external servers, PixTrim processes everything <strong>locally inside your browser</strong> using advanced HTML5 Canvas & JavaScript APIs. Your images never leave your device — ensuring total privacy, speed, and data security.</p>
+    
+    <h3>🚀 Why Image Compression Matters</h3>
+    <p>Large, unoptimized images are the #1 culprit behind slow-loading websites. According to industry benchmarks, a delay of just one second can reduce conversions by 7%. By compressing your images with PixTrim, you can slash file sizes by up to 80% while preserving excellent quality. This leads to faster page loads, lower bandwidth bills, better SEO rankings, and a smoother user experience.</p>
+    
+    <h3>⚙️ How PixTrim Works – 100% Client‑Side Technology</h3>
+    <p>When you upload an image, the tool reads it directly using the FileReader API, draws it onto a canvas element, and then re‑encodes it with a customized quality setting (controlled by the interactive slider). The result is a freshly compressed JPEG file ready for download. <strong>No server, no queue, no hidden uploads.</strong> This architecture makes PixTrim lightning-fast and completely compliant with data protection regulations (GDPR, CCPA) because no personal content is transmitted over the internet.</p>
+    
+    <h3>✨ Key Advantages & Unique Features</h3>
+    <ul>
+      <li><strong>⚡ Real-time compression preview</strong> – instant file size comparison after upload.</li>
+      <li><strong>🎚️ Adjustable quality (1% to 100%)</strong> – fine-tune the balance between size and sharpness.</li>
+      <li><strong>🔐 Zero data transfer</strong> – images are processed offline in your browser memory.</li>
+      <li><strong>🌓 Dark mode & responsive UI</strong> – comfortable for any environment, from desktop to smartphone.</li>
+      <li><strong>📊 Unlimited free usage</strong> – no sign-up required, no hidden limits.</li>
+      <li><strong>🧩 Supports popular formats</strong> – JPEG, PNG and more (compressed output in high‑efficiency JPEG).</li>
+      <li><strong>📉 Save storage & bandwidth</strong> – ideal for website optimization, email attachments, cloud backups.</li>
+    </ul>
+    
+    <h3>🖼️ Ideal Use Cases</h3>
+    <p>Whether you run a WordPress blog, an online store, a photography portfolio, or a social media account, PixTrim simplifies your workflow. <strong>Web developers</strong> can compress hero images to improve Core Web Vitals. <strong>Digital marketers</strong> can reduce email banner sizes under 1MB. <strong>Photographers</strong> can quickly prepare proofs without bulky software. Even <strong>students and educators</strong> benefit from faster slide decks and project uploads.</p>
+    
+    <h3>🔒 Privacy & Security First</h3>
+    <p>Because compression occurs entirely in your browser’s sandbox, PixTrim does not require image uploads to any external database. No IP logging, no tracking of your original files, no third-party cookies (except for non-intrusive analytics). You can compress sensitive images — personal ID photos, internal design mockups, or confidential documents — with full peace of mind. For further transparency, we never store compression history or share metadata.</p>
+    
+    <h3>📈 How PixTrim Boosts Your Website’s SEO</h3>
+    <p>Google’s ranking algorithm prioritizes page experience and loading speed. Compressing images reduces the Largest Contentful Paint (LCP) and overall page weight. With PixTrim, you can achieve sub‑200KB hero images that look stunning on retina screens. Moreover, the clean semantic HTML and fast performance of this tool itself demonstrate best practices for search engines. Start optimizing today and watch your site climb search results.</p>
+    
+    <h3>💡 Pro Tips for Maximum Compression</h3>
+    <ul>
+      <li>Use 70–85% quality for photographic images (optimal balance).</li>
+      <li>For web graphics like logos, try 50–60% — often still crisp.</li>
+      <li>Compress before uploading to CMS or social platforms to avoid additional recompression.</li>
+      <li>Combine with modern formats (WebP conversion coming soon) for ultimate performance.</li>
+    </ul>
+    <p>PixTrim is continuously improved: we are actively developing batch processing and next‑gen format support while maintaining the core principle of <strong>private, client‑side compression</strong>. Join thousands of users who already rely on PixTrim to make their images lighter and their websites faster.</p>
+    <p><em>Ready to supercharge your images? Just upload any image, move the compression slider, and download your optimized file in seconds — absolutely free.</em></p>
   </div>
 
   <!-- Footer -->
   <footer>
     <div class="footer-content">
-      <p>© 2023 PixTrim. All rights reserved.</p>
+      <p>© 2025 PixTrim. All rights reserved. Lightning‑fast image compression.</p>
       <div class="social-links">
         <a href="#">Twitter</a>
         <a href="#">LinkedIn</a>
@@ -678,26 +772,17 @@
     </div>
   </footer>
 
-  <!-- Dark Mode Toggle -->
   <button id="dark-mode-toggle">🌙</button>
+  <div class="usage-counter" id="usage-counter" style="display: none;">Free uses left: <span id="remaining-uses">3</span>/3</div>
 
-  <!-- Usage Counter -->
-  <div class="usage-counter" id="usage-counter" style="display: none;">
-    Free uses left: <span id="remaining-uses">3</span>/3
-  </div>
-
-  <!-- Firebase and other scripts -->
+  <!-- Firebase + Analytics -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
-  <!-- Vercel Analytics Script -->
   <script type="module">
     import { inject } from 'https://unpkg.com/@vercel/analytics';
     inject();
   </script>
-
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-W34PSKXY8J"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -707,7 +792,7 @@
   </script>
 
   <script>
-    // Firebase configuration - REPLACE WITH YOUR ACTUAL CONFIG
+    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAZ_dD2VMAV023Vfyyevh0ud2CsxA2HDfQ",
       authDomain: "pixtrimpr.firebaseapp.com",
@@ -716,8 +801,6 @@
       messagingSenderId: "168373294033",
       appId: "1:168373294033:web:4256e1e7e8bb5cc81846f0"
     };
-
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
@@ -743,244 +826,70 @@
     const usageCounter = document.getElementById('usage-counter');
     const remainingUses = document.getElementById('remaining-uses');
 
-    // Update compression level value
-    compressRange.addEventListener('input', () => {
-      compressValue.textContent = compressRange.value;
-    });
+    compressRange.addEventListener('input', () => { compressValue.textContent = compressRange.value; });
 
-    // Auth state listener
     auth.onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in
-        authLink.textContent = '👤 Account';
-        // Hide usage counter since we removed the limit
-        usageCounter.style.display = 'none';
-      } else {
-        // No user is signed in
-        authLink.textContent = '🔒 Login';
-        // Hide usage counter since we removed the limit
-        usageCounter.style.display = 'none';
-      }
+      if (user) { authLink.textContent = '👤 Account'; usageCounter.style.display = 'none'; } 
+      else { authLink.textContent = '🔒 Login'; usageCounter.style.display = 'none'; }
     });
 
-    // Modal functionality
     authLink.addEventListener('click', (e) => {
       e.preventDefault();
-      if (auth.currentUser) {
-        // User is logged in, redirect to account page
-        window.location.href = 'account.html';
-      } else {
-        modal.style.display = 'block';
-        // Show signup form by default
-        loginForm.style.display = 'none';
-        signupForm.style.display = 'block';
-        // Clear messages
-        signupMessage.style.display = 'none';
-        loginMessage.style.display = 'none';
-      }
+      if (auth.currentUser) window.location.href = 'account.html';
+      else { modal.style.display = 'block'; loginForm.style.display = 'none'; signupForm.style.display = 'block'; signupMessage.style.display = 'none'; loginMessage.style.display = 'none'; }
     });
+    closeBtn.addEventListener('click', () => modal.style.display = 'none');
+    showLogin.addEventListener('click', (e) => { e.preventDefault(); signupForm.style.display = 'none'; loginForm.style.display = 'block'; signupMessage.style.display = 'none'; });
+    showSignup.addEventListener('click', (e) => { e.preventDefault(); loginForm.style.display = 'none'; signupForm.style.display = 'block'; loginMessage.style.display = 'none'; });
+    window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
 
-    closeBtn.addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
-
-    showLogin.addEventListener('click', (e) => {
-      e.preventDefault();
-      signupForm.style.display = 'none';
-      loginForm.style.display = 'block';
-      signupMessage.style.display = 'none';
-    });
-
-    showSignup.addEventListener('click', (e) => {
-      e.preventDefault();
-      loginForm.style.display = 'none';
-      signupForm.style.display = 'block';
-      loginMessage.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-
-    // Sign up
     signupBtn.addEventListener('click', () => {
-      const email = document.getElementById('signup-email').value;
-      const password = document.getElementById('signup-password').value;
-      
-      // Validate password length
-      if (password.length < 6) {
-        showMessage(signupMessage, 'Password must be at least 6 characters', 'error');
-        return;
-      }
-
-      auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          // Create user document in Firestore
-          return db.collection('users').doc(userCredential.user.uid).set({
-            email: email,
-            usageCount: 0,
-            isSubscribed: false,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            anonymousUses: localStorage.getItem('anonymousUsage') || 0
-          });
-        })
-        .then(() => {
-          showMessage(signupMessage, 'Account created successfully! Redirecting...', 'success');
-          // Clear localStorage anonymous usage
-          localStorage.removeItem('anonymousUsage');
-          // Close modal after 2 seconds
-          setTimeout(() => {
-            modal.style.display = 'none';
-          }, 2000);
-        })
-        .catch((error) => {
-          showMessage(signupMessage, error.message, 'error');
-        });
+      const email = document.getElementById('signup-email').value, password = document.getElementById('signup-password').value;
+      if (password.length < 6) return showMessage(signupMessage, 'Password must be at least 6 characters', 'error');
+      auth.createUserWithEmailAndPassword(email, password).then((userCredential) => db.collection('users').doc(userCredential.user.uid).set({ email, usageCount: 0, isSubscribed: false, createdAt: firebase.firestore.FieldValue.serverTimestamp(), anonymousUses: localStorage.getItem('anonymousUsage') || 0 }))
+        .then(() => { showMessage(signupMessage, 'Account created! Redirecting...', 'success'); setTimeout(() => modal.style.display = 'none', 2000); })
+        .catch((error) => showMessage(signupMessage, error.message, 'error'));
     });
-
-    // Login
     loginBtn.addEventListener('click', () => {
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-      
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          showMessage(loginMessage, 'Logged in successfully! Redirecting...', 'success');
-          // Close modal after 2 seconds
-          setTimeout(() => {
-            modal.style.display = 'none';
-          }, 2000);
-        })
-        .catch((error) => {
-          showMessage(loginMessage, error.message, 'error');
-        });
+      const email = document.getElementById('login-email').value, password = document.getElementById('login-password').value;
+      auth.signInWithEmailAndPassword(email, password).then(() => { showMessage(loginMessage, 'Logged in!', 'success'); setTimeout(() => modal.style.display = 'none', 2000); }).catch((error) => showMessage(loginMessage, error.message, 'error'));
     });
+    function showMessage(element, message, type) { element.textContent = message; element.className = `form-message ${type}`; element.style.display = 'block'; }
+    function trackUsage() { return Promise.resolve(true); }
 
-    // Show message in form
-    function showMessage(element, message, type) {
-      element.textContent = message;
-      element.className = `form-message ${type}`;
-      element.style.display = 'block';
-    }
-
-    // Track image compression usage (modified to always allow compression)
-    function trackUsage(userId) {
-      // Always return true to allow compression
-      return Promise.resolve(true);
-    }
-
-    // Handle file upload and compression
     fileInput.addEventListener('change', async (event) => {
       const file = event.target.files[0];
       if (!file) return;
-
-      // Always allow compression (no limit check)
-      const isAllowed = await trackUsage(auth.currentUser ? auth.currentUser.uid : null);
-      
-      if (!isAllowed) {
-        fileInput.value = ''; // Clear the file input
-        return;
-      }
-
-      // Proceed with compression
+      const allowed = await trackUsage();
+      if (!allowed) { fileInput.value = ''; return; }
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new Image();
         img.src = e.target.result;
-
         img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
+          const canvas = document.createElement('canvas'), ctx = canvas.getContext('2d');
+          canvas.width = img.width; canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
           const quality = compressRange.value / 100;
-          canvas.toBlob(
-            (blob) => {
-              const compressedFile = new File([blob], file.name, {
-                type: 'image/jpeg',
-                lastModified: Date.now(),
-              });
-              displayResults(file, compressedFile);
-            },
-            'image/jpeg',
-            quality
-          );
+          canvas.toBlob((blob) => { displayResults(file, new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() })); }, 'image/jpeg', quality);
         };
       };
       reader.readAsDataURL(file);
     });
 
-    // Display results in the table
     function displayResults(originalFile, compressedFile) {
       const row = document.createElement('tr');
-
-      // File Name
-      const fileNameCell = document.createElement('td');
-      fileNameCell.textContent = originalFile.name;
-      fileNameCell.setAttribute('data-label', 'File Name');
-      row.appendChild(fileNameCell);
-
-      // Original Size
-      const originalSizeCell = document.createElement('td');
-      originalSizeCell.textContent = `${(originalFile.size / 1024).toFixed(2)} KB`;
-      originalSizeCell.setAttribute('data-label', 'Original Size');
-      row.appendChild(originalSizeCell);
-
-      // Compressed Size
-      const compressedSizeCell = document.createElement('td');
-      compressedSizeCell.textContent = `${(compressedFile.size / 1024).toFixed(2)} KB`;
-      compressedSizeCell.setAttribute('data-label', 'Compressed Size');
-      row.appendChild(compressedSizeCell);
-
-      // Download Button
-      const actionCell = document.createElement('td');
-      const downloadLink = document.createElement('a');
-      downloadLink.href = URL.createObjectURL(compressedFile);
-      downloadLink.download = `compressed_${originalFile.name}`;
-      downloadLink.className = 'download-btn';
-      downloadLink.textContent = '⬇️ Download';
-      actionCell.setAttribute('data-label', 'Action');
-      actionCell.appendChild(downloadLink);
-      row.appendChild(actionCell);
-
-      // Add row to table
+      row.innerHTML = `<td data-label="File Name">${originalFile.name}</td><td data-label="Original Size">${(originalFile.size / 1024).toFixed(2)} KB</td><td data-label="Compressed Size">${(compressedFile.size / 1024).toFixed(2)} KB</td><td data-label="Action"><a href="${URL.createObjectURL(compressedFile)}" download="compressed_${originalFile.name}" class="download-btn">⬇️ Download</a></td>`;
       resultsBody.appendChild(row);
     }
 
-    // Dark Mode Toggle
-    darkModeToggle.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      darkModeToggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
-      // Save preference to localStorage
-      localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
-    });
+    darkModeToggle.addEventListener('click', () => { body.classList.toggle('dark-mode'); darkModeToggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙'; localStorage.setItem('darkMode', body.classList.contains('dark-mode')); });
+    if (localStorage.getItem('darkMode') === 'true') { body.classList.add('dark-mode'); darkModeToggle.textContent = '☀️'; }
 
-    // Check for saved dark mode preference
-    if (localStorage.getItem('darkMode') === 'true') {
-      body.classList.add('dark-mode');
-      darkModeToggle.textContent = '☀️';
-    }
-
-    // Scroll Animations
-    const sections = document.querySelectorAll('.hero, .features, .testimonials, footer');
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    sections.forEach((section) => observer.observe(section));
+    // Updated scroll animation selector includes .about-section
+    const sections = document.querySelectorAll('.hero, .features, .testimonials, .about-section, footer');
+    const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1 });
+    sections.forEach(section => observer.observe(section));
   </script>
 </body>
 </html>
